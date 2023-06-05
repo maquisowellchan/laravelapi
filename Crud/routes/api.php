@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SampleUserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EnrollmentController;
@@ -31,4 +32,13 @@ Route::middleware(['auth:api', 'role:admin'])->group(function () {
     Route::post('/enrollment', [EnrollmentController::class, 'submit']);
     Route::delete('/enrollments/{id}', 'Api\EnrollmentController@destroy');
 });
+
+
+
+
+Route::get('2/user/{id}', [SampleUserController::class, 'user']);
+Route::post('2/login', [SampleUserController::class, 'login']);
+Route::post('2/register', [SampleUserController::class, 'create']);
+Route::put('2/update', [SampleUserController::class, 'update']);
+Route::delete('2/delete', [SampleUserController::class, 'delete']);
 
