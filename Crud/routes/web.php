@@ -15,22 +15,14 @@ use Illuminate\Http\Request;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-
 Route::get('/api/enrollment', function() {
     $enrollments = App\Models\Enrollment::all();
     return $enrollments->toJson();
 });
 
-Route::post('/api/enrollment/store', [DataController::class, 'store'])->name('enrollment.submit');
+Route::post('/api/enrollment/store', [DataController::class, 'store']);
 Route::delete('/api/enrollment/{id}', [DataController::class, 'destroy']);
-Route::put('/api/enrollment/{id}', [DataController::class, 'update'])->name('enrollment.update');
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
-
-Route::get('/', [EnrollmentController::class, 'create']);
-
-Route::delete('/enrollments/delete/{id}', 'EnrollmentController@destroy');
+Route::put('/api/enrollment/update/{id}', [DataController::class, 'update']);
 
 Route::get('/', function () {
     return view('enrollment-form');

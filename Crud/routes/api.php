@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DataController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post('/enrollment/store', [DataController::class, 'store']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -32,6 +34,12 @@ Route::middleware(['auth:api', 'role:admin'])->group(function () {
     Route::post('/enrollment', [EnrollmentController::class, 'submit']);
     Route::delete('/enrollments/{id}', 'Api\EnrollmentController@destroy');
 });
+
+
+
+
+
+Route::delete('/enrollments/delete/{id}', 'EnrollmentController@destroy');
 
 
 
