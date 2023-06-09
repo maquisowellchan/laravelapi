@@ -51,15 +51,13 @@ class SampleUserController extends Controller
             $user = sampleuser::where('username', $request->username)->first();
             if ($user) {
                 return response()->json(['message' => 'This username is existing, please try another!'], 200);
-            }
-            else {
+            } else {
                 sampleuser::create([
                     'username' => $request->username,
                     'password' => Hash::make($request->password)
                 ]);
-                return response()->json(['message' => 'Registered successfully!'], 200);
+                return response()->json(['message' => 'Registered successfully!'], 201);
             }
-            
         }
     }
 
@@ -74,12 +72,17 @@ class SampleUserController extends Controller
         if ($validator->fails()) {
             return response()->json(['message' => $validator->messages()]);
         } else {
-            $user = sampleuser::find($request->id);
-            $user->update([
-                'username' => $request->username,
-                'password' => Hash::make($request->password)
-            ]);
-            return response()->json(['message' => 'Updated successfully!'], 200);
+            $exist = sampleuser::where('username', $request->username)->first();
+            if ($exist) {
+                return response()->json(['message' => 'Your username or password is the same as previous or already existed!', 'flag' => 0], 200);
+            } else {
+                $user = sampleuser::find($request->id);
+                $user->update([
+                    'username' => $request->username,
+                    'password' => Hash::make($request->password)
+                ]);
+                return response()->json(['message' => 'Updated successfully!', 'flag' => 1], 200);
+            }
         }
     }
     public function delete(Request $request)
